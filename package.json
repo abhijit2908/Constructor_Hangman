@@ -1,0 +1,22 @@
+{
+  "name": "construtor_hangman",
+  "version": "1.0.0",
+  "description": "nodeJS hangman",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abhijit2908/Constructor_Hangman.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abhijit2908/Constructor_Hangman/issues"
+  },
+  "homepage": "https://github.com/abhijit2908/Constructor_Hangman#readme",
+  "dependencies": {
+    "inquirer": "^3.3.0"
+  }
+}
