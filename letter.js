@@ -18,97 +18,130 @@ var guessWords = require('./guessWords.js');
 var inquirer = require("inquirer");
 var letterAlreadyGuessed = [];
 var guessesRemaining = 10;
-
-var letter = function(letter, word,wins,losses){
+var wins = 0;
+var losses = 0;
+var computerGuess= guessWords.words[Math.floor(Math.random() * guessWords.words.length)].toLowerCase();
+var letter = function(letter, word){
 
 	this.letterguessed =letter;
-	this.guessesRemaining = guessesRemaining;
+	// this.guessesRemaining = guessesRemaining;
 	this.wordSelected = word;
-	this.wins = wins;
-	this.losses = losses;
+	//this.wins = wins;
+	//this.losses = losses;
 
-	this.reset = function(){
-		this.guessesRemaining=guessesRemaining;
-		var nextWord = new pickedWord(guessWords.computerGuess);
-		nextWord.wordHide();
-	}
+	// this.reset = function(){
+	// 	this.guessesRemaining=guessesRemaining;
+	// 	var nextWord = new pickedWord(guessWords.computerGuess);
+	// 	nextWord.wordHide();
+	// };
+
 	this.checkLetter = function(){
+
+		//console.log("In Checkletter " + this.wordSelected.length);
 			//if(this.letterPresence)
 		//{
 			for (var i = 0; i < this.wordSelected.length; i++) {
-				console.log(this.letterguessed);
+				// console.log(this.letterguessed);
+				// console.log(this.wordSelected);
+				// console.log(typeof(this.wordSelected));
+				// console.log(typeof(currentWord));
 				if(this.wordSelected[i] === this.letterguessed ){
+					//console.log(startGame.currentWord[i]);
 					currentWord[i] = currentWord[i].replace("_",this.letterguessed);
+
 				}
-				console.log(currentWord)
+
 			}
-			
+			console.log(currentWord.join("   "));
+
 			console.log("you guessed it right")
-		//}
 
-		// else if(!this.letterPresence && !letterAlreadyGuessed){
-		// 		this.letterAlreadyGuessed.push(this.letterguessed); 
-		// 		this.guessesRemaining--;
-		// 		console.log("you guessed it wrong");
-			
-			}
-		
-	
 
-	this.checkWins = function(){
-		if(this.guessesRemaining != 0 && currentWord == this.wordSelected){
-			this.wins++;
-			console.log("wins:" + this.win +'\n'+"Losses:" + this.losses);
-			console.log("You win");
-			this.reset();
-		}
+		};
 
-	}
-	this.checkLosses = function(){
-		if(this.guessesRemaining == 0 && currentWord != this.wordSelected){
-			this.losses++;
-			console.log("wins:" + this.win +'\n'+"Losses:" + this.losses);
-			console.log("You Lose");
-			this.reset();
-		}
 
-	}
 
-}
 
-var word1 = new words(guessWords.computerGuess);
+
+	};
+
+
+var word1 = new words(computerGuess);
 word1.wordDisplay();
 var currentWord = word1.wordHide();
-//console.log(word1.word)
-//console.log(word1.hiddenWord)
 
-//console.log("word is " + word1.word.join(""));
-//console.log("Computer Picked " + guessWords.computerGuess);
+function restart(){
+	computerGuess= guessWords.words[Math.floor(Math.random() * guessWords.words.length)].toLowerCase();
+	console.log("going in restart")
+	inquirer.prompt([{
+		type:"confirm",
+		name: "reset",
+		message: "Do you want to Play again?"
+	}]).then(function(response){
+		if(response.reset){
+			//computerGuess= guessWords.words[Math.floor(Math.random() * guessWords.words.length)].toLowerCase();
+			letterAlreadyGuessed=[];
+			guessesRemaining = 10;
+			var word1 = new words(computerGuess);
+			word1.wordDisplay();
+			var currentWord = word1.wordHide();
+			game();
+		}
 
-function game(){
-	if(guessesRemaining != 0 && (currentWord != guessWords.computerGuess)){
-		inquirer.prompt([  {
-			name: "letter",
-			message: "Please guess the letter?"
-		}]).then(function(answers){
-			var letterPresence = guessWords.computerGuess.includes(answers.letter)
-			console.log(letterPresence);
-			if(letterPresence){
-				var game1 = new letter(answers.letter,guessWords.computerGuess);
+	});
+
+};
+
+
+	function game(){
+
+		if(guessesRemaining != 0 && (currentWord.join("") != computerGuess)){
+			inquirer.prompt([  {
+				name: "letter",
+				message: "Please guess the letter?"
+			}]).then(function(answers){
+				var letterPresence = computerGuess.includes(answers.letter.toLowerCase())
+
+				var game1 = new letter(answers.letter,computerGuess);
+				if(letterPresence){
+
 					game1.checkLetter();
-					game1.checkWins();
-					game1.checkLosses();
+
+				}
+				if (!letterAlreadyGuessed.includes(answers.letter) && !letterPresence){
+					letterAlreadyGuessed.push(answers.letter); 
+					guessesRemaining--;
+					console.log(currentWord.join("   "));
+					console.log("you guessed it wrong");
+					console.log(guessesRemaining);
+
+
+
 				}
 
-			else if(!letterPresence && !letterAlreadyGuessed){
-						letterAlreadyGuessed.push(answers.letter); 
-						guessesRemaining--;
-		console.log("you guessed it wrong");
 
-			}
-			game();
-		});
+				game();
+			});
 
+
+		}
+
+		if (currentWord.join("") === computerGuess && guessesRemaining != 0){
+			wins++;
+			console.log("wins:" +wins +'\n'+"Losses:" +losses);
+			console.log("You win");
+			restart();
+		}
+		if(guessesRemaining == 0 && (currentWord.join("") != computerGuess)){
+			losses++;
+			console.log("wins:" + wins +'\n'+"Losses:" + losses);
+			console.log("You Lose");
+			restart();
+
+		}
 	}
-}
-game();
+	game();
+
+// }
+// startGame();
+//if(!letterPresence && !letterAlreadyGuessed)
