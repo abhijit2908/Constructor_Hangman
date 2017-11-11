@@ -121,6 +121,3 @@ var currentWord = word1.wordHide();
 	}
 	game();
 
-// }
-// startGame();
-//if(!letterPresence && !letterAlreadyGuessed)

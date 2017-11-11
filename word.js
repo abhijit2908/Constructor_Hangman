@@ -1,6 +1,5 @@
 var guesswords = require('./guessWords');
 
-//var computerGuess= guesswords.words[Math.floor(Math.random() * guesswords.words.length)].toLowerCase();
 
 var pickedWord = function(word){
 
@@ -8,7 +7,7 @@ var pickedWord = function(word){
 
 	this.wordDisplay = function(){
 
-		//console.log(this.word);
+		
 		return this.word;
 	}
 
@@ -28,9 +27,5 @@ var pickedWord = function(word){
 }
 
 
-// var word1 = new pickedWord(computerGuess);
-// word1.wordDisplay();
-// word1.wordHide();
-// console.log(word1.word)
-// console.log(hiddenWord)
+
 module.exports= pickedWord;
