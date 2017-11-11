@@ -1,5 +1,5 @@
 var guesswords = require('./guessWords');
-var hiddenWord = [];
+
 //var computerGuess= guesswords.words[Math.floor(Math.random() * guesswords.words.length)].toLowerCase();
 
 var pickedWord = function(word){
@@ -13,7 +13,8 @@ var pickedWord = function(word){
 	}
 
 	this.wordHide = function(){
-		
+		console.log(this.word.length)
+		var hiddenWord = [];
 
 		for (var i = 0; i < this.word.length; i++) {
 			hiddenWord[i] = "_";
@@ -32,7 +33,4 @@ var pickedWord = function(word){
 // word1.wordHide();
 // console.log(word1.word)
 // console.log(hiddenWord)
-module.exports= pickedWord,{
-
-hiddenWord:hiddenWord
-}
+module.exports= pickedWord;

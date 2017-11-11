@@ -1,16 +1,3 @@
-//l etter constructor
-// input for letter
-//method to replace letter 
-//inquirer prompt function 
-//disply word 
-//take input 
-//.then compare if yes use rplace letter method and check if word is equl to original word.
-//else push it to letter already guessed and reduce number of guesses and check if 
-
-
-
-
-
 
 
 var words = require('./word.js');
@@ -21,32 +8,22 @@ var guessesRemaining = 10;
 var wins = 0;
 var losses = 0;
 var computerGuess= guessWords.words[Math.floor(Math.random() * guessWords.words.length)].toLowerCase();
+
+
 var letter = function(letter, word){
 
-	this.letterguessed =letter;
-	// this.guessesRemaining = guessesRemaining;
-	this.wordSelected = word;
-	//this.wins = wins;
-	//this.losses = losses;
+	this.letterguessed =letter.toLowerCase();
 
-	// this.reset = function(){
-	// 	this.guessesRemaining=guessesRemaining;
-	// 	var nextWord = new pickedWord(guessWords.computerGuess);
-	// 	nextWord.wordHide();
-	// };
+	this.wordSelected = word;
+	
 
 	this.checkLetter = function(){
 
-		//console.log("In Checkletter " + this.wordSelected.length);
-			//if(this.letterPresence)
-		//{
+		
 			for (var i = 0; i < this.wordSelected.length; i++) {
-				// console.log(this.letterguessed);
-				// console.log(this.wordSelected);
-				// console.log(typeof(this.wordSelected));
-				// console.log(typeof(currentWord));
+				
 				if(this.wordSelected[i] === this.letterguessed ){
-					//console.log(startGame.currentWord[i]);
+					
 					currentWord[i] = currentWord[i].replace("_",this.letterguessed);
 
 				}
@@ -66,12 +43,10 @@ var letter = function(letter, word){
 	};
 
 
-var word1 = new words(computerGuess);
-word1.wordDisplay();
-var currentWord = word1.wordHide();
+
 
 function restart(){
-	computerGuess= guessWords.words[Math.floor(Math.random() * guessWords.words.length)].toLowerCase();
+	computerGuess = guessWords.words[Math.floor(Math.random() * guessWords.words.length)].toLowerCase();
 	console.log("going in restart")
 	inquirer.prompt([{
 		type:"confirm",
@@ -79,12 +54,11 @@ function restart(){
 		message: "Do you want to Play again?"
 	}]).then(function(response){
 		if(response.reset){
-			//computerGuess= guessWords.words[Math.floor(Math.random() * guessWords.words.length)].toLowerCase();
 			letterAlreadyGuessed=[];
 			guessesRemaining = 10;
-			var word1 = new words(computerGuess);
+			word1 = new words(computerGuess);
 			word1.wordDisplay();
-			var currentWord = word1.wordHide();
+			currentWord = word1.wordHide();
 			game();
 		}
 
@@ -92,11 +66,16 @@ function restart(){
 
 };
 
+var word1 = new words(computerGuess);
+word1.wordDisplay();
+var currentWord = word1.wordHide();
+
 
 	function game(){
 
 		if(guessesRemaining != 0 && (currentWord.join("") != computerGuess)){
-			inquirer.prompt([  {
+			inquirer.prompt([{
+				type:"input",
 				name: "letter",
 				message: "Please guess the letter?"
 			}]).then(function(answers){
